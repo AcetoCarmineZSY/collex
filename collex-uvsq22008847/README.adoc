@@ -1,0 +1,79 @@
+= Exercices
+
+[IMPORTANT]
+====
+Dans ces exercices, vous respecterez les contraintes suivantes:
+
+* Vous utiliserez `git` en effectuant des commits réguliers comportant des messages informatifs.
+* Le _build_ sera assuré par Maven et plus précisément Maven wrapper (déjà intégré dans le projet).
+Aucune manipulation en dehors de Maven ne devra être nécessaire.
+* Le _build_ devra intégrer `checkstyle` pour la vérification des règles de codages Google.
+Le projet devra donc les respecter.
+* Des tests unitaire JUnit 4 devront être disponibles pour la plupart des méthodes développées.
+* Chaque exercice devra se trouver dans un _package_ différent.
+* Les fonctionnalités du langage Java devront être utilisées au mieux (exceptions, librairie de collections, I/O, ...).
+====
+
+== Utilisation des collections
+L'objet de cet exercice est de simuler l'interrogation d'un DNS (_Domain Name Server_).
+Un DNS convertit une adresse IP (`192.168.0.1` par exemple) en un nom qualifié de machine (`machine.domaine.local` par exemple) et inversement.
+Un nom qualifié comporte le nom de la machine (avant le premier `'.'`) et un nom de domaine (après le premier `'.'`).
+
+L'interface proposera une ligne de commande à partir de laquelle les commandes suivantes devront être interprétées:
+
+* `nom.qualifié.machine` : l'adresse IP de la machine est affichée;
+* `adr.es.se.ip` : le nom qualifié de cette machine est affiché;
+* `ls [-a]` _domaine_ : la liste des machines du domaine _domaine_ sera affichée triée selon le nom des machines ou selon les adresses IP (si `-a` est présent).
+
+[IMPORTANT]
+====
+* La base de données du serveur sera conservée dans un fichier texte (une ligne par machine au format "`un_nom_de_machine une.adresse.IP`") chargé au lancement du programme.
+* Le nom du fichier devra être stocké dans un fichier de propriétés (cf. http://docs.oracle.com/javase/tutorial/essential/environment/properties.html[Tutoriel sur les propriétés]).
+====
+
+. Réaliser les classes `AdresseIP`, `NomMachine` et `DnsItem` qui représentent respectivement une adresse IP, un nom qualifié de machine et une entrée du DNS.
+. Réaliser la classe `Dns` qui proposera les opérations suivantes:
+** un constructeur qui chargera la base de données,
+** deux méthodes `getItem` qui retourneront une instance de `DnsItem` soit à partir d'une adresse IP, soit à partir d'un nom de machine,
+** une méthode `getItems` qui retournera une liste d'items à partir d'un nom de domaine.
+. Réaliser la classe `DnsTUI` qui se chargera des interactions avec l'utilisateur.
+Cette classe fournira une méthode `nextCommande` qui analysera le texte saisi par l'utilisateur et retournera un objet implémentant l'interface `Commande` (cf. question suivante) et une méthode `affiche` qui affichera un résultat.
+. Les commandes DNS seront implémentées à l'aide du modèle de conception http://en.wikipedia.org/wiki/Command_pattern[Commande].
+** créer l'interface `Commande` comportant une seule méthode `execute`,
+** créer une classe implémentant cette interface pour chaque action (rechercher une IP, rechercher un nom, rechercher les machines d'un domaine, quitter l'application).
+. Réaliser la classe principale `DnsApp`.
+La méthode `run` de cette classe interagira avec l'interface utilisateur pour récupérer la prochaine commande, l'exécutera puis affichera la résultat.
+
+== Logiciel de "dessin"
+Le but de cet exercice est de réaliser un logiciel de dessin 2D.
+On se limitera ici à un affichage textuel, i.e. seule une description des figures sera affichée.
+
+Le logiciel devra offrir les fonctionnalités suivantes:
+
+* manipulation (affichage et déplacement) des formes comme des rectangles et des cercles,
+* regroupement d'objets afin de leur faire subir un traitement global
+(par exemple, déplacer ensemble un cercle et un rectangle),
+* sauvegarde/chargement d'un dessin à l'aide de la sérialisation.
+
+. Proposer une hiérarchie de classe modélisant ce problème et un découpage en module du logiciel
+. Réaliser une implémentation du logiciel de dessin
+
+== Requêtes en utilisant les `streams`
+Le but de cette exercice est d'exprimer un ensemble de requêtes en utilisant la bibliothèque `stream`.
+
+Un employé possède les attributs suivants :
+nom (`String`), age (`int`), sexe (`enum`), salaire (`BigDecimal`),
+date d'embauche (`LocalDate`) et service de rattachement (`Service`).
+Un service comporte un nom (`String`) et une adresse (`String`).
+
+. Implémentez la classe `Employe` et l'énumération `Service`
+. Créez un jeu de données de test
+. Implémentez les requêtes suivantes (faites afficher le résultat)
+.. les employés (avec toutes leurs caractéristiques)
+.. les employés de moins de 30 ans
+.. le nom des hommes
+.. le nom et le salaire trié par salaire décroissant
+.. la moyenne des salaires
+.. les employés regroupés selon leur sexe
+.. la moyenne des salaires par sexe
+.. le nom et la date d'embauche par services
